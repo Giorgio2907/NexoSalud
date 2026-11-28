@@ -1,57 +1,32 @@
 package pe.edu.unmsm.nexosalud
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import androidx.activity.viewModels
 import pe.edu.unmsm.nexosalud.data.local.AppDatabase
-import pe.edu.unmsm.nexosalud.data.local.EstablecimientoEntity
 import pe.edu.unmsm.nexosalud.data.repository.PacienteRepository
 import pe.edu.unmsm.nexosalud.model.PacienteViewModel
 import pe.edu.unmsm.nexosalud.model.PacienteViewModelFactory
+import pe.edu.unmsm.nexosalud.ui.navigation.AppNavigation
 import pe.edu.unmsm.nexosalud.ui.theme.NexoSaludTheme
-import kotlin.jvm.java
 
 class MainActivity : ComponentActivity() {
+
+    private val pacienteViewModel: PacienteViewModel by viewModels {
+        PacienteViewModelFactory(
+            PacienteRepository(AppDatabase.getDatabase(this).pacienteDao())
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             NexoSaludTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation(pacienteViewModel)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NexoSaludTheme {
-        Greeting("Android")
     }
 }
