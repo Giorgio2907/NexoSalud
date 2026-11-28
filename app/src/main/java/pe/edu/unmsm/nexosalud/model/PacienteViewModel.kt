@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pe.edu.unmsm.nexosalud.data.repository.PacienteRepository
 
+data class MensajeUi(val texto: String, val esError: Boolean)
+
 class PacienteViewModel(private val repository: PacienteRepository) : ViewModel() {
 
     val pacientes = repository.listar().stateIn(
@@ -19,16 +21,17 @@ class PacienteViewModel(private val repository: PacienteRepository) : ViewModel(
         initialValue = emptyList()
     )
 
-    private val _mensaje = MutableStateFlow<String?>(null)
-    val mensaje: StateFlow<String?> = _mensaje.asStateFlow()
+    private val _mensaje = MutableStateFlow<MensajeUi?>(null)
+    val mensaje: StateFlow<MensajeUi?> = _mensaje.asStateFlow()
 
-    fun registrar(codigo: String) {
+    fun registrar(codigo: String, alExito: () -> Unit = {}) {
         viewModelScope.launch {
             try {
                 repository.registrar(codigo)
-                _mensaje.value = "Paciente registrado."
+                _mensaje.value = MensajeUi("Paciente registrado.", esError = false)
+                alExito()
             } catch (e: IllegalArgumentException) {
-                _mensaje.value = e.message
+                _mensaje.value = MensajeUi(e.message ?: "Dato inválido.", esError = true)
             }
         }
     }
