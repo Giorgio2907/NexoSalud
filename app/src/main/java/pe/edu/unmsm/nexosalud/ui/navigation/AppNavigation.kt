@@ -26,10 +26,14 @@ import androidx.navigation.compose.rememberNavController
 import pe.edu.unmsm.nexosalud.model.PacienteViewModel
 import pe.edu.unmsm.nexosalud.ui.screens.catalogo.CatalogoScreen
 import pe.edu.unmsm.nexosalud.ui.screens.pacientes.PacientesScreen
+import pe.edu.unmsm.nexosalud.model.DiagnosticoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation(pacienteViewModel: PacienteViewModel) {
+fun AppNavigation(
+    pacienteViewModel: PacienteViewModel,
+    diagnosticoViewModel: DiagnosticoViewModel
+) {
     val navController = rememberNavController()
     val entradaActual by navController.currentBackStackEntryAsState()
     val rutaActual = entradaActual?.destination?.route
@@ -57,7 +61,7 @@ fun AppNavigation(pacienteViewModel: PacienteViewModel) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Routes.Pacientes.ruta) { PacientesScreen(pacienteViewModel) }
-            composable(Routes.Catalogo.ruta) { CatalogoScreen() }
+            composable(Routes.Catalogo.ruta) { CatalogoScreen(diagnosticoViewModel) }
         }
     }
 }

@@ -58,7 +58,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+    implementation("androidx.compose.material:material-icons-extended")
 }
 
 ksp {
