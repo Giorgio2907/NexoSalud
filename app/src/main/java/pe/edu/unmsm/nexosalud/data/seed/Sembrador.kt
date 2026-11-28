@@ -2,8 +2,10 @@ package pe.edu.unmsm.nexosalud.data.seed
 
 import androidx.room.withTransaction
 import pe.edu.unmsm.nexosalud.data.local.AppDatabase
-
-class Sembrador(private val db: AppDatabase) {
+import javax.inject.Inject
+import javax.inject.Singleton
+@Singleton
+class Sembrador @Inject constructor(private val db: AppDatabase) {
 
     suspend fun sembrarSiHaceFalta() {
         db.withTransaction {

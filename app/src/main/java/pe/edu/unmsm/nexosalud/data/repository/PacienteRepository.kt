@@ -5,8 +5,9 @@ import pe.edu.unmsm.nexosalud.data.local.PacienteDao
 import pe.edu.unmsm.nexosalud.data.local.PacienteEntity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class PacienteRepository(private val dao: PacienteDao) {
+class PacienteRepository @Inject constructor(private val dao: PacienteDao) {
 
     fun listar(): Flow<List<PacienteEntity>> = dao.listar()
 

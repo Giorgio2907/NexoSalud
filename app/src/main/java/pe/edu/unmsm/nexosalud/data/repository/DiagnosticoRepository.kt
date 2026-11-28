@@ -3,8 +3,9 @@ package pe.edu.unmsm.nexosalud.data.repository
 import kotlinx.coroutines.flow.Flow
 import pe.edu.unmsm.nexosalud.data.local.DiagnosticoCie10Dao
 import pe.edu.unmsm.nexosalud.data.local.DiagnosticoCie10Entity
+import javax.inject.Inject
 
-class DiagnosticoRepository(private val dao: DiagnosticoCie10Dao) {
+class DiagnosticoRepository @Inject constructor(private val dao: DiagnosticoCie10Dao) {
 
     fun listar(): Flow<List<DiagnosticoCie10Entity>> = dao.listar()
 
